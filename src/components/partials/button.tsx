@@ -3,18 +3,14 @@ const Button = (props: any) => {
     const {
         name,
         className,
-        value,
-        action,
         label,
+        action
     } = props
     return (
         <button
             name={name}
             className={className}
-            value={value}
-            onClick={e => {
-                action(e.currentTarget.value)
-            }}
+            onClick={action}
         >
             {label}
         </button>

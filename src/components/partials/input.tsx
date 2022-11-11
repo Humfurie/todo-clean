@@ -5,17 +5,17 @@ const Input = (props: any) => {
         name,
         action,
         checked,
-        className
+        className,
+        value,
     } = props
 
     return(
         <input 
         type={type}
         name={name}
+        value={value}
         className={className}
-        onChange={e => {
-            action(e.target.value)
-        }}
+        onChange={action}
         checked={checked}
          />
     )

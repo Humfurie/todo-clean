@@ -1,18 +1,26 @@
 import Input from "./partials/input"
 import Button from "./partials/button"
-import { useState } from "react"
+import { SetStateAction, useState } from "react"
 const AddTask = (props: any) => {
     const {
         handleSubmit,
         // handleChange
     } = props
 
-    const [input, setInput] = useState('')
+    const [text, setText] = useState('')
 
     return (
         <div>
-            <Input type='text' name='add_task' action={setInput} />
-            <Button name='add_task_btn' value={input} label='Add Task' action={handleSubmit} />
+            <Input type='text' name='add_task' value={text} action={(e: any) => {
+                setText(e.currentTarget.value)
+            }}            
+            />
+            <Button name='add_task_btn' label='Add Task' action={() => {
+                if(text){
+                    setText('')
+                    handleSubmit(text)
+                }
+            }} />
         </div>
     )
 }

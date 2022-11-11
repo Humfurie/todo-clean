@@ -8,41 +8,52 @@ import ACTIONS from '../lib/reducers/actions'
 
 export default function Home() {
 
-  const [todo, dispatch] = useReducer(Reducer, initialState)
+  const [todoState, dispatch] = useReducer(Reducer, initialState)
 
-  //input change function
-  // const handleChange = (e: string) => {
-  //   dispatch({
-  //     type: ACTIONS.HANDLE_CHANGE,
-  //     todoValue: e
-  //   })
-  // }
-  
   //add task submit function
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (data: any) => {
     dispatch({
       type: ACTIONS.ADD_TODO,
-      todoValue: e
+      todoValue: data
     })
   }
 
   //data button functions
   //data checkmark input function
-  const checkMark = () => {
+  const checkMark = (checked: any, index: number) => {
+    const newValue = todoState.todoList.find((_: { todoValue: string, status: boolean }, checkedTodoListIndex: number) => checkedTodoListIndex === index)
+    const newList = todoState.todoList
+    newValue.status = checked
+    newList[index] = { todoValue: newValue.todoValue, status: newValue.status }
+    console.log(newList)
     dispatch({
       type: ACTIONS.CHECKED_TODO,
+      newTodoList: newList,
     })
   }
+
   //data edit button function
-  const handleEdit = () => {
+  const handleEdit = (newTodoList: { todoValue: string, status: boolean }, index: number) => {
+    const newTodo = todoState.todoList.find((_: { todoValue: string, status: boolean }, newTodoIndex: number) => newTodoIndex === index)
+    const newList = todoState.todoList
+    newTodo.todoValue = newTodoList
+    newList[index] = { todoValue: newTodo.todoValue, status: newTodo.status }
+    console.log(index, 'this is new list')
     dispatch({
       type: ACTIONS.EDIT_TODO,
+      newTodoList: newList,
     })
   }
+
   //data delete button function
-  const handleDelete = () => {
+  const handleDelete = (index: number) => {
+
+    const newList = todoState.todoList
+    const todoFilter = newList.filter((_: { todoValue: string, status: false }, idx: number) => idx !== index)
+
     dispatch({
       type: ACTIONS.DELETE_TODO,
+      newTodoList: todoFilter
     })
   }
 
@@ -53,24 +64,35 @@ export default function Home() {
       type: ACTIONS.HANDLE_ALL,
     })
   }
+
   //done filter
   const handleDone = () => {
+    const done = todoState.todoClone.filter((todoList: { todoValue: string, status: boolean }, index: number) => todoList.status)
     dispatch({
       type: ACTIONS.HANDLE_DONE,
+      newTodoList: done,
     })
   }
+
   //todo filter
   const handleTodo = () => {
+    const todo = todoState.todoClone.filter((todoList: { todoValue: string, status: boolean }, index: number) => !todoList.status)
     dispatch({
       type: ACTIONS.HANDLE_TODO,
+      newTodoList: todo,
     })
   }
+
   //delete done filter
   const handleDeleteDone = () => {
+    const deleteDone = todoState.todoClone.filter((todoList: { todoValue: string, status: boolean }, index: number) => !todoList.status)
+    console.log(deleteDone)
     dispatch({
       type: ACTIONS.HANDLE_DELETE_DONE,
+      newTodoList: deleteDone,
     })
   }
+
   //delete all filter
   const handleDeleteAll = () => {
     dispatch({
@@ -83,12 +105,12 @@ export default function Home() {
   return (
     <div>
       <AddTask
-        // handleChange={handleChange}
         handleSubmit={handleSubmit}
       />
+
       <TodoList
         // state
-        todo={todo}
+        todoState={todoState}
         // data button
         checkMark={checkMark}
         handleEdit={handleEdit}

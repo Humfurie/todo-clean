@@ -3,7 +3,7 @@ import TodoView from "./todoView"
 
 const TodoList = (props: any) => {
     const {
-        todo,
+        todoState,
         checkMark,
         handleEdit,
         handleDelete,
@@ -13,13 +13,21 @@ const TodoList = (props: any) => {
         handleDeleteDone,
         handleDeleteAll,
     } = props
-    const currentTodo = todo.todoList
+
+    const currentTodo = todoState.todoList
+
     const rows = (
         <>
         {/* map, buttons,  */}
-        <Button />
-        <Button />
-        <Button />
+        <Button label='All' name='handle_all' action={(e:any) => {
+            handleAll()
+        }}  />
+        <Button label='Done' name='handle_done' action={(e:any) => {
+            handleDone()
+        }} />
+        <Button label='Todo' name='handle_todo' action={(e: any) => {
+            handleTodo()
+        }} />
         <div>
         {currentTodo.map((todo: {todoValue: string, status:boolean}, index: any) => (
             <div key={index}>
@@ -34,8 +42,12 @@ const TodoList = (props: any) => {
             </div>
             ))}
         </div>
-        <Button />
-        <Button />
+        <Button label='Delete Done Task' name='delete_done_task' action={(e:any) => {
+            handleDeleteDone()
+        }} />
+        <Button label='Delete All Task' name='delete_all_task' action={(e: any) => {
+            handleDeleteAll()
+        }} />
         
         </>
     )
