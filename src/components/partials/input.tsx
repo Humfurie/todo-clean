@@ -7,6 +7,7 @@ const Input = (props: any) => {
         checked,
         className,
         value,
+        placeholder,
     } = props
 
     return(
@@ -14,6 +15,7 @@ const Input = (props: any) => {
         type={type}
         name={name}
         value={value}
+        placeholder={placeholder}
         className={className}
         onChange={action}
         checked={checked}

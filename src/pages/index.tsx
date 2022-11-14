@@ -103,25 +103,32 @@ export default function Home() {
   //place global console log here
 
   return (
-    <div>
-      <AddTask
-        handleSubmit={handleSubmit}
-      />
-
-      <TodoList
-        // state
-        todoState={todoState}
-        // data button
-        checkMark={checkMark}
-        handleEdit={handleEdit}
-        handleDelete={handleDelete}
-        //filter functions
-        handleAll={handleAll}
-        handleDone={handleDone}
-        handleTodo={handleTodo}
-        handleDeleteDone={handleDeleteDone}
-        handleDeleteAll={handleDeleteAll}
-      />
+    <div className='bg-gray-400 h-screen w-full '>
+      <div className='flex justify-center w-full p-10 '>
+        <div className='bg-white w-1/3 p-5 rounded-md'>
+          <div>
+            <AddTask
+              handleSubmit={handleSubmit}
+            />
+          </div>
+          <div>
+            <TodoList
+              // state
+              todoState={todoState}
+              // data button
+              checkMark={checkMark}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+              //filter functions
+              handleAll={handleAll}
+              handleDone={handleDone}
+              handleTodo={handleTodo}
+              handleDeleteDone={handleDeleteDone}
+              handleDeleteAll={handleDeleteAll}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
