@@ -1,17 +1,11 @@
 import Button from "./partials/button"
 import TodoView from "./todoView"
+import ACTIONS from "../lib/reducers/actions"
 
 const TodoList = (props: any) => {
     const {
         todoState,
-        checkMark,
-        handleEdit,
-        handleDelete,
-        handleAll,
-        handleDone,
-        handleTodo,
-        handleDeleteDone,
-        handleDeleteAll,
+        dispatch,
     } = props
 
     const currentTodo = todoState.todoList
@@ -24,7 +18,9 @@ const TodoList = (props: any) => {
                     label='All'
                     name='handle_all'
                     action={(e: any) => {
-                        handleAll()
+                        dispatch({
+                            type: ACTIONS.HANDLE_ALL,
+                          })
                     }}
                     className='text-md bg-green-400 rounded-md px-4 '
                 />
@@ -32,7 +28,9 @@ const TodoList = (props: any) => {
                     label='Done'
                     name='handle_done'
                     action={(e: any) => {
-                        handleDone()
+                        dispatch({
+                            type: ACTIONS.HANDLE_DONE,
+                          })
                     }}
                     className='text-md bg-green-400 rounded-md px-4 '
                 />
@@ -40,7 +38,9 @@ const TodoList = (props: any) => {
                     label='Todo'
                     name='handle_todo'
                     action={(e: any) => {
-                        handleTodo()
+                        dispatch({
+                            type: ACTIONS.HANDLE_TODO,
+                          })
                     }}
                     className='text-md bg-green-400 rounded-md px-4'
                 />
@@ -52,9 +52,7 @@ const TodoList = (props: any) => {
                             todo={todo}
                             index={index}
 
-                            checkMark={checkMark}
-                            handleEdit={handleEdit}
-                            handleDelete={handleDelete}
+                            dispatch={dispatch}
                         />
                     </div>
                 )) : <div className="flex justify-center">
@@ -66,7 +64,9 @@ const TodoList = (props: any) => {
                 label='Delete Done Task' 
                 name='delete_done_task' 
                 action={(e: any) => {
-                    handleDeleteDone()
+                    dispatch({
+                        type: ACTIONS.HANDLE_DELETE_DONE,
+                      })
                 }} 
                 className='text-md bg-red-400 rounded-md px-2 '
                 />
@@ -74,7 +74,9 @@ const TodoList = (props: any) => {
                 label='Delete All Task' 
                 name='delete_all_task' 
                 action={(e: any) => {
-                    handleDeleteAll()
+                    dispatch({
+                        type: ACTIONS.HANDLE_DELETE_ALL
+                      })
                 }}
                 className='text-md bg-red-400 rounded-md px-2 '
                 />

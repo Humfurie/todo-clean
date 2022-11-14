@@ -1,14 +1,14 @@
 import { useState } from "react"
 import Button from "./partials/button"
 import Input from "./partials/input"
+import ACTIONS from "../lib/reducers/actions"
 
 const TodoView = (props: any) => {
     const {
         todo,
         index,
-        checkMark,
-        handleEdit,
-        handleDelete
+        handleDelete,
+        dispatch
     } = props
 
     const [isEditing, setIsEditing] = useState(false)
@@ -22,7 +22,11 @@ const TodoView = (props: any) => {
                     <Input 
                     value={todo.todoValue} 
                     action={(e: any) => {
-                        handleEdit(e.target.value, index)
+                        dispatch({
+                            type: ACTIONS.EDIT_TODO,
+                            editValue: e.target.value,
+                            index: index,
+                          })
                     }} />
                 </div>
                 <div>
@@ -49,7 +53,13 @@ const TodoView = (props: any) => {
                         type='checkbox'
                         checked={todo.status}
                         action={(e: any) => {
-                            checkMark(e.target.checked, index)
+                            dispatch({
+                                type: ACTIONS.CHECKED_TODO,
+                                checked: e.target.checked,
+                                index: index
+
+                            })
+
                         }}
                     />
                     <Button
@@ -62,7 +72,10 @@ const TodoView = (props: any) => {
                         name='delete'
                         label='delete'
                         action={() => {
-                            handleDelete(index)
+                            dispatch({
+                                type: ACTIONS.DELETE_TODO,
+                                index: index
+                              })
                         }}
                         className='text-md bg-red-400 rounded-md px-2 '
                     />

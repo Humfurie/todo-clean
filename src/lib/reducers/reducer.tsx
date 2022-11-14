@@ -4,11 +4,7 @@ const Reducer = (state: any, action: any) => {
     console.log(state, 'state')
     // // console.log(action, 'action')
     switch (action.type) {
-        //handle change
-        // case ACTIONS.HANDLE_CHANGE:
-        //     return state = {
-        //         input: action.todoValue
-        //     }
+
         //handle submit
         case ACTIONS.ADD_TODO: {
             // console.log(action.todoValue)
@@ -16,15 +12,27 @@ const Reducer = (state: any, action: any) => {
         }
         //checked
         case ACTIONS.CHECKED_TODO: {
-            return { ...state, todoList: action.newTodoList, todoClone: action.newTodoList }
+            const newValue = state.todoList.find((_: { todoValue: string, status: boolean }, checkedTodoListIndex: number) => checkedTodoListIndex === action.index)
+            const todoList = state.todoList
+            newValue.status = action.checked
+            todoList[action.index] = { todoValue: newValue.todoValue, status: newValue.status }
+
+            return { ...state, todoList: todoList, todoClone: todoList }
         }
         // handle edit
         case ACTIONS.EDIT_TODO: {
-            return { ...state, todoList: action.newTodoList, todoClone: action.newTodoList }
+            const newTodo = state.todoList.find((_: { todoValue: string, status: boolean }, newTodoIndex: number) => newTodoIndex === action.index)
+            const todoList = state.todoList
+            newTodo.todoValue = action.editValue
+            todoList[action.index] = { todoValue: newTodo.todoValue, status: newTodo.status }
+
+            return { ...state, todoList: todoList, todoClone: todoList }
         }
         //handle delete
         case ACTIONS.DELETE_TODO: {
-            return { ...state, todoList: action.newTodoList, todoClone: action.newTodoList }
+            const newList = state.todoList
+            const todoFilter = newList.filter((_: { todoValue: string, status: false }, idx: number) => idx !== action.index)
+            return { ...state, todoList: todoFilter, todoClone: todoFilter }
         }
 
         //todo filters
@@ -32,14 +40,20 @@ const Reducer = (state: any, action: any) => {
         case ACTIONS.HANDLE_ALL:
             return { ...state, todoList: [...state.todoClone], todoClone: [...state.todoClone] }
         //handle done filter
-        case ACTIONS.HANDLE_DONE:
-            return { ...state, todoList: action.newTodoList, todoClone: [...state.todoClone] }
-        //handle todo filter
-        case ACTIONS.HANDLE_TODO:
-            return { ...state, todoList: action.newTodoList, todoClone: [...state.todoClone] }
+        case ACTIONS.HANDLE_DONE:{
+            const todoList = state.todoClone.filter((todoList: { todoValue: string, status: boolean }, index: number) => todoList.status)
+            return { ...state, todoList: todoList, todoClone: [...state.todoClone] }
+        }
+            //handle todo filter
+        case ACTIONS.HANDLE_TODO:{
+            const todoList = state.todoClone.filter((todoList: { todoValue: string, status: boolean }) => !todoList.status)
+            return { ...state, todoList: todoList, todoClone: [...state.todoClone] }
+        }
         //handle delete done
-        case ACTIONS.HANDLE_DELETE_DONE:
-            return { ...state, todoList: action.newTodoList, todoClone: action.newTodoList }
+        case ACTIONS.HANDLE_DELETE_DONE:{
+            const todoList = state.todoClone.filter((todoList: { todoValue: string, status: boolean }, index: number) => !todoList.status)
+            return { ...state, todoList: todoList, todoClone: todoList }
+        }
         //handle delete all
         case ACTIONS.HANDLE_DELETE_ALL:
             return { ...state, todoList: [], todoClone: [] }

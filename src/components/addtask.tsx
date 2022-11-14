@@ -1,10 +1,10 @@
 import Input from "./partials/input"
 import Button from "./partials/button"
-import { SetStateAction, useState } from "react"
+import { useState } from "react"
+import ACTIONS from "../lib/reducers/actions"
 const AddTask = (props: any) => {
     const {
-        handleSubmit,
-        // handleChange
+        dispatch,
     } = props
 
     const [text, setText] = useState('')
@@ -30,7 +30,10 @@ const AddTask = (props: any) => {
                 action={() => {
                     if (text) {
                         setText('')
-                        handleSubmit(text)
+                        dispatch({
+                            type: ACTIONS.ADD_TODO,
+                            todoValue: text
+                          })
                     }
                 }} 
                 className="text-md bg-green-400 rounded-md w-3/4"
