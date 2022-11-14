@@ -1,12 +1,12 @@
 import Input from "./partials/input"
 import Button from "./partials/button"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import ACTIONS from "../lib/reducers/actions"
-const AddTask = (props: any) => {
-    const {
-        dispatch,
-    } = props
+import { DispatchContext } from "../lib/useContext/dispatchContext"
 
+const AddTask = () => {
+
+    const { dispatch } = useContext<any>(DispatchContext)
     const [text, setText] = useState('')
 
     return (

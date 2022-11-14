@@ -1,12 +1,13 @@
 import Button from "./partials/button"
 import TodoView from "./todoView"
 import ACTIONS from "../lib/reducers/actions"
+import { useContext } from "react"
+import { DispatchContext } from "../lib/useContext/dispatchContext"
+import { TodoMapContext } from "../lib/useContext/todoMapContext"
 
-const TodoList = (props: any) => {
-    const {
-        todoState,
-        dispatch,
-    } = props
+const TodoList = () => {
+
+    const { todoState, dispatch } = useContext(DispatchContext)
 
     const currentTodo = todoState.todoList
 
@@ -20,7 +21,7 @@ const TodoList = (props: any) => {
                     action={(e: any) => {
                         dispatch({
                             type: ACTIONS.HANDLE_ALL,
-                          })
+                        })
                     }}
                     className='text-md bg-green-400 rounded-md px-4 '
                 />
@@ -30,7 +31,7 @@ const TodoList = (props: any) => {
                     action={(e: any) => {
                         dispatch({
                             type: ACTIONS.HANDLE_DONE,
-                          })
+                        })
                     }}
                     className='text-md bg-green-400 rounded-md px-4 '
                 />
@@ -40,7 +41,7 @@ const TodoList = (props: any) => {
                     action={(e: any) => {
                         dispatch({
                             type: ACTIONS.HANDLE_TODO,
-                          })
+                        })
                     }}
                     className='text-md bg-green-400 rounded-md px-4'
                 />
@@ -48,37 +49,34 @@ const TodoList = (props: any) => {
             <div className="flex flex-col">
                 {currentTodo.length >= 1 ? currentTodo.map((todo: { todoValue: string, status: boolean }, index: any) => (
                     <div key={index}>
-                        <TodoView
-                            todo={todo}
-                            index={index}
-
-                            dispatch={dispatch}
-                        />
+                        <TodoMapContext.Provider value={{ todo, index }}>
+                            <TodoView />
+                        </TodoMapContext.Provider>
                     </div>
                 )) : <div className="flex justify-center">
                     <p className="text-md bg-gray-500 "> No Content... </p>
                 </div>}
             </div>
             <div className="flex justify-evenly">
-                <Button 
-                label='Delete Done Task' 
-                name='delete_done_task' 
-                action={(e: any) => {
-                    dispatch({
-                        type: ACTIONS.HANDLE_DELETE_DONE,
-                      })
-                }} 
-                className='text-md bg-red-400 rounded-md px-2 '
+                <Button
+                    label='Delete Done Task'
+                    name='delete_done_task'
+                    action={(e: any) => {
+                        dispatch({
+                            type: ACTIONS.HANDLE_DELETE_DONE,
+                        })
+                    }}
+                    className='text-md bg-red-400 rounded-md px-2 '
                 />
-                <Button 
-                label='Delete All Task' 
-                name='delete_all_task' 
-                action={(e: any) => {
-                    dispatch({
-                        type: ACTIONS.HANDLE_DELETE_ALL
-                      })
-                }}
-                className='text-md bg-red-400 rounded-md px-2 '
+                <Button
+                    label='Delete All Task'
+                    name='delete_all_task'
+                    action={(e: any) => {
+                        dispatch({
+                            type: ACTIONS.HANDLE_DELETE_ALL
+                        })
+                    }}
+                    className='text-md bg-red-400 rounded-md px-2 '
                 />
             </div>
 
